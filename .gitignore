@@ -1,0 +1,5 @@
+venv/
+etl_mod.egg-info/
+logs/
+__pycache__/
+.idea/

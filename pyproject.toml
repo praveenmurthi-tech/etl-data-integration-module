@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etl_mod"
+version = "0.1.0"
+description = "Config-driven ETL for Sales & Services with YAML configs and PostgreSQL destination"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "SQLAlchemy>=2.0",
+    "psycopg2-binary>=2.9",
+    "pymysql>=1.1",
+    "pyodbc>=5.1",
+    "pandas>=2.0",
+    "PyYAML>=6.0",
+    "pydantic>=2.6",
+    "python-dotenv>=1.0",
+    "tenacity>=8.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.3",
+    "ruff>=0.4.8",
+    "mypy>=1.10",
+    "pytest>=8.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "B", "UP", "SIM", "PL", "C90"]
+ignore = ["E203", "E266", "E501"]
+src = ["etl","tests"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_return_any = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+strict_optional = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
