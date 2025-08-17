@@ -1,11 +1,11 @@
 # Config-Driven ETL (Sales & Services) – Python
 
-A professional, plain-Python repository scaffold for config-driven ETL to extract from various SQL sources (MSSQL/MySQL/PostgreSQL), 
+A professional, plain-Python repository scaffold for config-driven ETL to extract from various SQL sources (MSSQL/PostgreSQL), 
 transform via **one-to-one mappings** defined in YAML, and load into **PostgreSQL**, with **file + DB audit logging**.
 
 ## Features
 - **YAML-first** configuration (per-customer).
-- **Multi-source** via SQLAlchemy (mssql/mysql/postgresql).
+- **Multi-source** via SQLAlchemy (mysql/postgresql).
 - **Chunked extraction** and optional **incremental filter** (timestamp or numeric increment).
 - **One-to-one mapping** transformer with schema padding.
 - **Upsert to PostgreSQL** using `ON CONFLICT` with configurable key(s).
@@ -29,12 +29,7 @@ transform via **one-to-one mappings** defined in YAML, and load into **PostgreSQ
    python -m etl.scripts.init_audit
    ```
 
-5. Create destination schema & demo tables (optional example):
-   ```bash
-   psql postgresql://user:pass@host:5432/db -f etl/scripts/init_destination_schema.sql
-   ```
-
-6. **Run a dataset** (sales or services) for a customer:
+5. **Run a dataset** (sales or services) for a customer:
    ```bash
    python -m etl.cli --customer-config etl/config/customers/sample_customer.yaml --dataset sales
    python -m etl.cli --customer-config etl/config/customers/sample_customer.yaml --dataset services
@@ -45,7 +40,7 @@ transform via **one-to-one mappings** defined in YAML, and load into **PostgreSQ
 See: `etl/config/customers/sample_customer.yaml`
 
 Key sections:
-- `source`: connection + type (`mssql` | `mysql` | `postgresql`).
+- `source`: connection + type (`mssql` | `postgresql`).
 - `destination`: PostgreSQL connection.
 - `datasets.<name>`: source table, target table, key columns (for upsert), optional incremental, and **one-to-one** `mapping`.
 
@@ -66,6 +61,5 @@ pytest -q
 ## Notes
 - Ensure appropriate DB drivers are installed for your sources:
   - MSSQL: `pyodbc` or `pymssql` (URI: `mssql+pyodbc://...`).
-  - MySQL: `pymysql` (URI: `mysql+pymysql://...`).
   - PostgreSQL: `psycopg2-binary` (URI: `postgresql+psycopg2://...`).
 
