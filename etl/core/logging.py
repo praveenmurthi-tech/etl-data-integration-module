@@ -30,7 +30,7 @@ def setup_logging(level: str = "INFO", log_dir: str = "logs") -> None:
 
     # Rotating file handler for INFO logs only
     fh_info = RotatingFileHandler(
-        os.path.join(log_dir, "info.log"), maxBytes=5_000_000, backupCount=5
+        os.path.join(log_dir, "info.log"), maxBytes=5_000_000, backupCount=5, encoding="utf-8"
     )
     fh_info.setLevel(logging.INFO)
     fh_info.addFilter(lambda record: record.levelno == logging.INFO)  # only pure INFO

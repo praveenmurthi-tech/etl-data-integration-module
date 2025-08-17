@@ -114,6 +114,7 @@ def main():
     except Exception as e:
         logger.exception("ETL failed: %s", e)
         audit_core.end_run(dst_engine, run_id, "failed", None, None, str(e))
+        audit_core.end_step(dst_engine, step_id, "failed", None, None, str(e))
         raise
 
 if __name__ == "__main__":

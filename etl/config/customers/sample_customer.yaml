@@ -1,11 +1,10 @@
 customer: customer_b
 source:
-  type: postgresql
-  host: localhost
-  port: 5432
+  type: mssql
+  host: localhost\SQLEXPRESS
   database: customer_a
-  username: postgres
-  password: Praveen#5
+  username: sa
+  password: Praveen@123
   driver: ODBC Driver 17 for SQL Server
 
 destination:

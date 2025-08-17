@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 def upsert_df(engine: Engine, df: pd.DataFrame, target_table: str, key_columns: List[str]) -> int:
     """Upsert a DataFrame into Postgres target_table using ON CONFLICT DO UPDATE."""
     if df.empty:
-        logger.warning("⚠️ No data to upsert into table '%s'. DataFrame is empty.", target_table)
+        logger.warning("No data to upsert into table '%s'. DataFrame is empty.", target_table)
         return 0
 
     try:
-        logger.info("🚀 Starting UPSERT into table '%s' | rows=%d | keys=%s",
+        logger.info("Starting UPSERT into table '%s' | rows=%d | keys=%s",
                     target_table, len(df), key_columns)
 
         md = MetaData()
@@ -40,9 +40,9 @@ def upsert_df(engine: Engine, df: pd.DataFrame, target_table: str, key_columns: 
             result = conn.execute(stmt)
             rowcount = result.rowcount or 0
 
-        logger.info("✅ UPSERT completed for table '%s' | rows affected=%d", target_table, rowcount)
+        logger.info("UPSERT completed for table '%s' | rows affected=%d", target_table, rowcount)
         return rowcount
 
     except Exception as e:
-        logger.exception("❌ Failed UPSERT into table '%s'", target_table)
+        logger.exception("Failed UPSERT into table '%s'", target_table)
         raise

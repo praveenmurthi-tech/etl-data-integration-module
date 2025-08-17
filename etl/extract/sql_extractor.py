@@ -6,6 +6,16 @@ from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Optional: Add a console handler if not already added
+if not logger.hasHandlers():
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
 
 def extract_chunks(
     engine: Engine,
@@ -27,6 +37,14 @@ def extract_chunks(
 
     logger.info("Running extraction: %s | params=%s", base_sql, params)
 
+    chunk_number = 0
     with engine.connect() as conn:
         for chunk in pd.read_sql_query(text(base_sql), conn, params=params, chunksize=chunksize):
+            chunk_number += 1
+            logger.info(
+                "Extracted chunk #%d with %d rows from table %s", 
+                chunk_number, 
+                len(chunk), 
+                table
+            )
             yield chunk
