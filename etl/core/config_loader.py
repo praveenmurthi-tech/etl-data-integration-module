@@ -20,7 +20,7 @@ class DatasetConfig(BaseModel):
 class SourceConfig(BaseModel):
     type: str  # mssql | mysql | postgresql
     host: str
-    port: int
+    port: Optional[int] = None
     database: str
     username: str
     password: str

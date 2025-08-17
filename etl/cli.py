@@ -60,11 +60,11 @@ def main():
         cfg.source.password,
         cfg.source.driver,
     )
-
+    
     dst_url = build_pg_url(cfg.destination)    
     src_engine = make_engine(src_url)
     dst_engine = make_engine(dst_url)
-
+    
     # Ensure audit tables exist
     from etl.models.audit_models import Base
     Base.metadata.create_all(dst_engine)

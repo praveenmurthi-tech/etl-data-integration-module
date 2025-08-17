@@ -1,7 +1,10 @@
 from __future__ import annotations
 from typing import Literal, Optional
-from sqlalchemy.engine import URL
 from sqlalchemy import create_engine
+import urllib.parse
+import logging
+
+logger = logging.getLogger(__name__)  # module-level logger
 
 def build_source_url(
     type_: Literal["mssql", "mysql", "postgresql"],
@@ -14,31 +17,54 @@ def build_source_url(
 ) -> str:
     try:
         if type_ == "postgresql":
-            return f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}"
+            url = f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}"
+            logger.info("✅ PostgreSQL URL built successfully | host=%s db=%s", host, database)
+            return url
 
         elif type_ == "mysql":
-            return f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+            url = f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+            logger.info("✅ MySQL URL built successfully | host=%s db=%s", host, database)
+            return url
 
         elif type_ == "mssql":
-            # Using pyodbc; driver must be provided (e.g., 'ODBC Driver 17 for SQL Server')
             if not driver:
-                raise ValueError("❌ MSSQL requires an ODBC driver name in config.source.driver")
-            return f"mssql+pyodbc://{username}:{password}@{host}:{port}/{database}?driver={driver}"
+                logger.error("❌ MSSQL requires an ODBC driver name in config.source.driver")
+                raise ValueError("MSSQL requires an ODBC driver name in config.source.driver")
+
+            # Build ODBC connection string
+            conn_str = (
+                f"DRIVER={{{driver}}};"
+                f"SERVER={host};"
+                f"DATABASE={database};"
+                f"UID={username};"
+                f"PWD={password}"
+            )
+
+            odbc_params = urllib.parse.quote_plus(conn_str)
+            url = f"mssql+pyodbc:///?odbc_connect={odbc_params}"
+            logger.info("✅ MSSQL URL built successfully | host=%s db=%s driver=%s", host, database, driver)
+            return url
 
         else:
-            raise ValueError(f"❌ Unsupported source type: {type_}")
+            logger.error("❌ Unsupported source type: %s", type_)
+            raise ValueError(f"Unsupported source type: {type_}")
 
     except Exception as e:
-        # Clear logging of the issue
-        print("\n[ERROR] Failed to build database connection URL:")
-        if type_ == "mssql":
-            print(f"  ➤ Driver    : {driver}")
-        print(f"  ➤ Reason    : {str(e)}\n")
-        raise   # re-raise so calling code can also handle it
+        logger.exception("❌ Failed to build database connection URL | type=%s host=%s db=%s", type_, host, database)
+        raise   # re-raise for caller to handle
 
 
 def build_pg_url(dest) -> str:
-    return f"postgresql+psycopg2://{dest.username}:{dest.password}@{dest.host}:{dest.port}/{dest.database}"
+    url = f"postgresql+psycopg2://{dest.username}:{dest.password}@{dest.host}:{dest.port}/{dest.database}"
+    logger.info("✅ Postgres destination URL built | host=%s db=%s", dest.host, dest.database)
+    return url
+
 
 def make_engine(url: str):
-    return create_engine(url, future=True)
+    try:
+        engine = create_engine(url, future=True)
+        logger.debug("🔗 SQLAlchemy engine created successfully")
+        return engine
+    except Exception:
+        logger.exception("❌ Failed to create SQLAlchemy engine")
+        raise
