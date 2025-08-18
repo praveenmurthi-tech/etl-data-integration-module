@@ -28,7 +28,7 @@ def extract_chunks(
 
     # Quote identifiers to avoid SQL injection
     quoted_table = f'"{table}"'
-    base_sql = f"SELECT * FROM {quoted_table}"
+    base_sql = f"SELECT * FROM {table}"
 
     params = {}
     if incremental_column and last_value is not None:

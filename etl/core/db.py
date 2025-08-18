@@ -22,9 +22,12 @@ def build_source_url(
             return url
 
         elif type_ == "mysql":
-            url = f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+            username_enc = urllib.parse.quote_plus(username)
+            password_enc = urllib.parse.quote_plus(password)
+            url = f"mysql+mysqlconnector://{username_enc}:{password_enc}@{host}:{port}/{database}"
             logger.info("MySQL URL built successfully | host=%s db=%s", host, database)
             return url
+
 
         elif type_ == "mssql":
             if not driver:

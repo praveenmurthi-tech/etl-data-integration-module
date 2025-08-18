@@ -1,6 +1,6 @@
 customer: customer_b
 source:
-  type: msmsql
+  type: mssql
   host: localhost\SQLEXPRESS
   database: customer_a
   username: sa
