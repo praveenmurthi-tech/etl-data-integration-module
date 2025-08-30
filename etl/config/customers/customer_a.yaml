@@ -7,17 +7,9 @@ source:
   password: Praveen@123
   driver: ODBC Driver 17 for SQL Server
 
-
-destination:
-  host: localhost
-  port: 5432
-  database: postgres
-  username: postgres
-  password: Praveen#5
-
 datasets:
   sales:
-    source_table: sales_summary
+    source_table: srv_activity_log_1
     target_table: sales
     key_columns: ["sale_id"]
     incremental:

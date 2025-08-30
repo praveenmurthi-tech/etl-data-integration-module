@@ -57,10 +57,11 @@ def build_source_url(
         raise   # re-raise for caller to handle
 
 
-def build_pg_url(dest) -> str:
-    url = f"postgresql+psycopg2://{dest.username}:{dest.password}@{dest.host}:{dest.port}/{dest.database}"
-    logger.info("Postgres destination URL built | host=%s db=%s", dest.host, dest.database)
+def build_pg_url(dest: dict) -> str:
+    url = f"postgresql+psycopg2://{dest['username']}:{dest['password']}@{dest['host']}:{dest['port']}/{dest['database']}"
+    logger.info("Postgres destination URL built | host=%s db=%s", dest['host'], dest['database'])
     return url
+
 
 
 def make_engine(url: str):
@@ -68,6 +69,6 @@ def make_engine(url: str):
         engine = create_engine(url, future=True)
         logger.debug("SQLAlchemy engine created successfully")
         return engine
-    except Exception:
-        logger.exception("Failed to create SQLAlchemy engine")
+    except Exception as e:
+        logger.exception("Failed to create SQLAlchemy engine", e)
         raise

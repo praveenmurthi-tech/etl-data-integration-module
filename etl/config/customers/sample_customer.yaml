@@ -7,14 +7,6 @@ source:
   username: postgres
   password: Praveen#5
 
-
-destination:
-  host: localhost
-  port: 5432
-  database: postgres
-  username: postgres
-  password: Praveen#5
-
 datasets:
   sales:
     source_table: sales_summary

@@ -13,6 +13,8 @@ from etl.core import audit as audit_core
 from etl.extract.sql_extractor import extract_chunks
 from etl.transform.mapper import map_columns
 from etl.load.pg_loader import upsert_df
+from etl.core.validation import DataValidator
+from etl.config import DEST_DB, DEST_HOST, DEST_PASS, DEST_PORT, DEST_USER
 
 REQUIRED_SALES = [
     "sale_id", "customer_id", "product_id", "sale_date",
@@ -58,10 +60,18 @@ def main():
         cfg.source.database,
         cfg.source.username,
         cfg.source.password,
-        cfg.source.driver,
+        cfg.source.driver
     )
-    
-    dst_url = build_pg_url(cfg.destination)    
+
+    dest = {
+        "host": os.getenv("DEST_HOST"),
+        "port": os.getenv("DEST_PORT"),
+        "database": os.getenv("DEST_DB"),
+        "username": os.getenv("DEST_USER"),
+        "password": os.getenv("DEST_PASS"),
+    }
+
+    dst_url = build_pg_url(dest)
     src_engine = make_engine(src_url)
     dst_engine = make_engine(dst_url)
     
@@ -102,10 +112,22 @@ def main():
         final_df = pd.concat(mapped, ignore_index=True) if mapped else pd.DataFrame(columns=req_cols)
         audit_core.end_step(dst_engine, step_id, "success", total_in, total_out, None)
 
+        #Validation
+        step_id = audit_core.start_step(dst_engine, run_id, "validate")
+        validator = DataValidator(args.dataset)  # "sales" or "services" (same as dataset name)
+        valid_df, invalid_df = validator.validate_and_fix(final_df)
+
+        if not invalid_df.empty:
+            logger.warning("Validation failed for %s rows", len(invalid_df))
+            # you can dump invalid_df to a CSV or an 'etl_invalid_data' table if needed
+            invalid_df.to_csv(f"invalid_{args.dataset}_{run_id}.csv", index=False)
+
+        audit_core.end_step(dst_engine, step_id, "success", len(final_df), len(valid_df), None)
+
         # LOAD
         step_id = audit_core.start_step(dst_engine, run_id, "load")
-        rowcount = upsert_df(dst_engine, final_df, dataset_cfg.target_table, dataset_cfg.key_columns)
-        audit_core.end_step(dst_engine, step_id, "success", total_out, rowcount, None)
+        rowcount = upsert_df(dst_engine, valid_df, dataset_cfg.target_table, dataset_cfg.key_columns)
+        audit_core.end_step(dst_engine, step_id, "success", len(valid_df), rowcount, None)
 
         # END RUN
         audit_core.end_run(dst_engine, run_id, "success", rowcount, last_value, None)
