@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any, Dict, Optional
 from pathlib import Path
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 from dataclasses import dataclass
 import os
 
@@ -25,6 +25,8 @@ class SourceConfig(BaseModel):
     username: str
     password: str
     driver: Optional[str] = None  # for mssql+pyodbc
+    path: Optional[str] = None
+    format: Optional[str] = None
 
 class DestConfig(BaseModel):
     host: str
@@ -38,11 +40,17 @@ class CustomerConfig(BaseModel):
     source: SourceConfig
     destination: DestConfig
     datasets: dict[str, DatasetConfig]
+    _file_path: Optional[Path] = None  # not in YAML, set at runtime
+
 
 def load_yaml_config(path: str | Path) -> CustomerConfig:
+    path = Path(path).resolve()
     with open(path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
-    return CustomerConfig.model_validate(data)
+    cfg = CustomerConfig.model_validate(data)
+    cfg._file_path = path
+    return cfg
+
 
 # Optional env-driven PG destination (fallback if not in YAML)
 class EnvPg(BaseModel):

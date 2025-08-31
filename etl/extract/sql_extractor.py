@@ -48,3 +48,21 @@ def extract_chunks(
                 table
             )
             yield chunk
+
+
+def extract_file_chunks(path: str, format: str = "csv", chunksize: int = 50_000) -> Iterator[pd.DataFrame]:
+    """Yield DataFrames from a CSV/Excel file in chunks."""
+    logger.info("Reading file source: %s | format=%s | chunksize=%d", path, format, chunksize)
+
+    if format.lower() == "csv":
+        for chunk in pd.read_csv(path, chunksize=chunksize):
+            yield chunk
+
+    elif format.lower() in ("excel", "xlsx"):
+        # pandas read_excel doesn’t support chunksize directly, so read all then yield
+        df = pd.read_excel(path)
+        for i in range(0, len(df), chunksize):
+            yield df.iloc[i:i+chunksize]
+
+    else:
+        raise ValueError(f"Unsupported file format: {format}")
