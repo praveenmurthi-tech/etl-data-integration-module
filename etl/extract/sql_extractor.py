@@ -4,6 +4,8 @@ import logging
 import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
+from pymongo import MongoClient
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -66,3 +68,25 @@ def extract_file_chunks(path: str, format: str = "csv", chunksize: int = 50_000)
 
     else:
         raise ValueError(f"Unsupported file format: {format}")
+
+
+def extract_mongo(source_cfg, chunksize: int = 50000):
+    client = MongoClient(source_cfg.uri)
+    db = client[source_cfg.database]
+    coll = db[source_cfg.collection]
+
+    cursor = coll.find({}, batch_size=chunksize)
+
+    batch = []
+    for doc in cursor:
+        # Drop Mongo's internal _id and convert all fields to string
+        doc.pop("_id", None)
+        doc = {k: str(v) for k, v in doc.items()}
+        batch.append(doc)
+
+        if len(batch) >= chunksize:
+            yield pd.DataFrame(batch)
+            batch = []
+
+    if batch:
+        yield pd.DataFrame(batch)

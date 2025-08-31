@@ -18,15 +18,24 @@ class DatasetConfig(BaseModel):
     incremental: Optional[IncrementalConfig] = None
 
 class SourceConfig(BaseModel):
-    type: str  # mssql | mysql | postgresql
-    host: str
+    type: str  # file | mssql | mysql | postgresql | mongodb
+
+    # Common DB fields (used only if type is mssql/mysql/postgresql)
+    host: Optional[str] = None
     port: Optional[int] = None
-    database: str
-    username: str
-    password: str
-    driver: Optional[str] = None  # for mssql+pyodbc
+    database: Optional[str] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+    driver: Optional[str] = None  # for MSSQL ODBC driver
+
+    # File-specific
     path: Optional[str] = None
     format: Optional[str] = None
+
+    # MongoDB-specific
+    uri: Optional[str] = None
+    collection: Optional[str] = None
+
 
 class DestConfig(BaseModel):
     host: str
@@ -38,9 +47,9 @@ class DestConfig(BaseModel):
 class CustomerConfig(BaseModel):
     customer: str
     source: SourceConfig
-    destination: DestConfig
+    destination: Optional[DestConfig] = None
     datasets: dict[str, DatasetConfig]
-    _file_path: Optional[Path] = None  # not in YAML, set at runtime
+    _file_path: Optional[Path] = None
 
 
 def load_yaml_config(path: str | Path) -> CustomerConfig:

@@ -4,10 +4,11 @@ from sqlalchemy import create_engine
 import urllib.parse
 import logging
 
+
 logger = logging.getLogger(__name__)  # module-level logger
 
 def build_source_url(
-    type_: Literal["mssql", "mysql", "postgresql", "file"],
+    type_: Literal["mssql", "mysql", "postgresql", "file", "mongodb"],
     host: str = "",
     port: int = 0,
     database: str = "",
@@ -16,6 +17,8 @@ def build_source_url(
     driver: Optional[str] = None,
     path: Optional[str] = None,
     format: Optional[str] = None,
+    uri: Optional[str] = None,
+    collection: Optional[str] = None,
 ) -> Optional[str]:
     """
     Build SQLAlchemy URL for SQL sources.
@@ -54,6 +57,12 @@ def build_source_url(
         elif type_ == "file":
             # For files we don't return a DB URL
             logger.info("File source detected: %s (format=%s)", path, format)
+            return None
+
+
+        elif type_ == "mongodb":
+            logger.info("MongoDB source detected: uri=%s db=%s collection=%s",
+                        uri, database, collection)
             return None
 
         else:

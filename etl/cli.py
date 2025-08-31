@@ -10,7 +10,7 @@ from etl.core.config_loader import load_yaml_config, load_env_pg
 from etl.core.db import build_source_url, build_pg_url, make_engine
 from etl.core.logging import setup_logging
 from etl.core import audit as audit_core
-from etl.extract.sql_extractor import extract_chunks, extract_file_chunks
+from etl.extract.sql_extractor import extract_chunks, extract_file_chunks, extract_mongo
 from etl.transform.mapper import map_columns
 from etl.load.pg_loader import upsert_df
 from etl.core.validation import DataValidator
@@ -96,9 +96,9 @@ def main():
         if cfg.source.type in ("mysql", "mssql", "postgresql"):
             chunks = extract_chunks(src_engine, ...)
         elif cfg.source.type == "file":
-            print("----->", cfg)
-            print("======>", cfg.source)
             chunks = extract_file_chunks(cfg.source.path, cfg.source.format, chunksize=50000)
+        elif cfg.source.type == "mongodb":
+            chunks = extract_mongo(cfg.source)
         else:
             raise ValueError(f"Unsupported source type: {cfg.source.type}")
         dfs = []
