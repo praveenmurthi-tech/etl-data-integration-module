@@ -1,0 +1,157 @@
+2025-09-03 07:22:28,608 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:22:28,608 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:22:29,136 | INFO | src.cli | Starting ETL | customer=customer_b dataset=sales
+2025-09-03 07:22:29,168 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-03 07:25:31,742 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:25:31,856 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:25:32,692 | INFO | src.cli | Starting ETL | customer=customer_b dataset=sales
+2025-09-03 07:25:32,761 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-03 07:26:11,579 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:26:11,581 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:26:12,209 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-03 07:26:12,249 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-03 07:26:13,879 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-03 07:26:14,775 | INFO | src.cli | Stored extracted file: data_lake\customer_b_services_103_chunk1.parquet
+2025-09-03 07:26:14,786 | INFO | src.cli | ETL completed successfully | run_id=103
+2025-09-03 07:35:23,414 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:35:23,430 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:35:23,854 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-03 07:35:23,968 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-03 07:35:25,035 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-03 07:36:01,063 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:36:01,112 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:36:01,411 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-03 07:36:01,433 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-03 07:36:01,937 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-03 07:36:01,955 | INFO | src.cli | Stored extracted file: data_lake\customer_b_services_105_chunk1.parquet
+2025-09-03 07:36:01,987 | INFO | src.cli | ETL completed successfully | run_id=105
+2025-09-03 07:39:26,641 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-03 07:39:26,657 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-03 07:39:26,849 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-03 07:39:26,872 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-03 07:39:27,800 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-03 07:39:27,818 | INFO | src.cli | Stored extracted file: data_lake\customer_b_services_106_chunk1.parquet
+2025-09-03 07:39:27,874 | INFO | src.cli | ETL completed successfully | run_id=106
+2025-09-04 07:55:39,152 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-04 07:55:39,170 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-04 07:55:39,855 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-04 08:02:16,078 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-04 08:02:16,078 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-04 08:02:16,342 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-04 08:02:16,378 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-04 08:02:17,807 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-04 08:02:18,547 | INFO | src.cli | Stored extracted file: data_lake\customer_b_services_108_chunk1.parquet
+2025-09-04 08:02:18,563 | INFO | src.cli | ETL completed successfully | run_id=108
+2025-09-04 08:13:38,246 | INFO | src.core.db | MSSQL URL built successfully | host=localhost\SQLEXPRESS db=customer_a driver=ODBC Driver 17 for SQL Server
+2025-09-04 08:13:38,380 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-04 08:13:38,962 | INFO | src.cli | Starting ETL | customer=customer_b dataset=services
+2025-09-04 08:13:38,988 | INFO | src.extract.extractor | Running extraction: SELECT * FROM srv_activity_log | params={}
+2025-09-04 08:13:39,962 | INFO | src.extract.extractor | Extracted chunk #1 with 500 rows from table srv_activity_log
+2025-09-04 08:13:40,681 | INFO | src.cli | Stored extracted file: data_lake\customer_b_services_109_chunk1.parquet
+2025-09-04 08:13:40,747 | INFO | src.cli | ETL completed successfully | run_id=109
+2025-09-06 11:06:19,513 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:06:19,531 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:06:19,531 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:06:19,855 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:07:21,303 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:07:21,312 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:07:21,312 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:07:21,683 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:09:08,668 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:09:08,668 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:09:08,668 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:09:08,835 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:10:22,704 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:10:22,705 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:10:22,705 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:10:22,932 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:11:02,863 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:11:02,864 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:11:02,865 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:11:03,027 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:12:41,425 | INFO | src.core.db | File source detected: None (format=None)
+2025-09-06 11:12:41,425 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:12:41,426 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:12:41,593 | INFO | src.cli | Starting ETL | customer=file_input dataset=sales
+2025-09-06 11:12:41,630 | INFO | src.extract.extractor | Reading file source: D:/data_modeling/srv_activity_log.csv | format=csv | chunksize=50000
+2025-09-06 11:12:42,915 | INFO | src.cli | Stored extracted file: data_lake\file_input_sales_115_chunk1.parquet
+2025-09-06 11:12:42,934 | INFO | src.cli | ETL completed successfully | run_id=115
+2025-09-06 11:16:33,390 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:16:33,421 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:16:33,563 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:16:35,570 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:17:43,429 | INFO | src.core.db | MongoDB source detected: uri=None db=etl collection=None
+2025-09-06 11:17:43,451 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:17:43,451 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:18:02,312 | INFO | src.core.db | MongoDB source detected: uri=None db=etl collection=None
+2025-09-06 11:18:02,313 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:18:02,313 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:18:02,491 | INFO | src.cli | Starting ETL | customer=mongo_input dataset=services
+2025-09-06 11:20:58,340 | INFO | src.core.db | MongoDB source detected: uri=None db=etl collection=None
+2025-09-06 11:20:58,361 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:20:58,366 | INFO | src.core.db | Skipping engine creation since source is a file.
+2025-09-06 11:20:58,658 | INFO | src.cli | Starting ETL | customer=mongo_input dataset=services
+2025-09-06 11:21:00,905 | INFO | src.cli | Stored extracted file: data_lake\mongo_input_services_117_chunk1.parquet
+2025-09-06 11:21:00,926 | INFO | src.cli | ETL completed successfully | run_id=117
+2025-09-06 11:21:24,443 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:21:24,514 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:21:24,624 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:21:26,626 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:28:52,236 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:28:52,259 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:28:52,349 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:28:54,350 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:33:13,391 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:33:13,404 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:33:13,486 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:33:15,542 | INFO | src.core.db | Retrying in 2 seconds...
+2025-09-06 11:34:36,013 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:34:36,032 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:34:37,067 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-06 11:34:37,118 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales_summary | params={}
+2025-09-06 11:35:14,291 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-06 11:35:14,291 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-06 11:35:14,851 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-06 11:35:14,912 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-06 11:35:16,122 | INFO | src.extract.extractor | Extracted chunk #1 with 50000 rows from table sales
+2025-09-06 11:35:16,878 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_119_chunk1.parquet
+2025-09-06 11:35:16,890 | INFO | src.extract.extractor | Extracted chunk #2 with 50 rows from table sales
+2025-09-06 11:35:16,902 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_119_chunk2.parquet
+2025-09-06 11:35:16,924 | INFO | src.cli | ETL completed successfully | run_id=119
+2025-09-11 21:07:36,102 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-11 21:07:36,115 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-11 21:07:37,497 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-11 21:07:37,528 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-11 21:07:38,901 | INFO | src.extract.extractor | Extracted chunk #1 with 50000 rows from table sales
+2025-09-11 21:07:39,716 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_124_chunk1.parquet
+2025-09-11 21:07:39,760 | INFO | src.extract.extractor | Extracted chunk #2 with 50 rows from table sales
+2025-09-11 21:07:39,790 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_124_chunk2.parquet
+2025-09-11 21:07:39,809 | INFO | src.cli | ETL completed successfully | run_id=124
+2025-09-11 21:18:21,988 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-11 21:18:22,001 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-11 21:18:23,068 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-11 21:18:23,102 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-11 21:18:24,262 | INFO | src.extract.extractor | Extracted chunk #1 with 5000 rows from table sales
+2025-09-11 21:18:25,060 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_125_chunk1.parquet
+2025-09-11 21:18:25,121 | INFO | src.cli | ETL completed successfully | run_id=125
+2025-09-11 21:26:35,606 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-11 21:26:35,622 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-11 21:26:37,192 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-11 21:26:37,264 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-11 21:26:38,799 | INFO | src.extract.extractor | Extracted chunk #1 with 5000 rows from table sales
+2025-09-11 21:26:39,466 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_126_chunk1.parquet
+2025-09-11 21:26:39,482 | INFO | src.cli | ETL completed successfully | run_id=126
+2025-09-11 21:29:01,357 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-11 21:29:01,373 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-11 21:29:02,483 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-11 21:29:02,545 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-11 21:29:03,715 | INFO | src.extract.extractor | Extracted chunk #1 with 5000 rows from table sales
+2025-09-11 21:29:04,389 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_127_chunk1.parquet
+2025-09-11 21:29:04,404 | INFO | src.cli | ETL completed successfully | run_id=127
+2025-09-11 22:18:14,789 | INFO | src.core.db | MySQL URL built successfully | host=localhost db=customer_c
+2025-09-11 22:18:14,812 | INFO | src.core.db | Postgres destination URL built | host=localhost db=postgres
+2025-09-11 22:18:15,914 | INFO | src.cli | Starting ETL | customer=customer_c dataset=sales
+2025-09-11 22:18:15,962 | INFO | src.extract.extractor | Running extraction: SELECT * FROM sales | params={}
+2025-09-11 22:18:17,305 | INFO | src.extract.extractor | Extracted chunk #1 with 10000 rows from table sales
+2025-09-11 22:18:18,241 | INFO | src.cli | Stored extracted file: data_lake\customer_c_sales_128_chunk1.parquet
+2025-09-11 22:18:18,374 | INFO | src.cli | ETL completed successfully | run_id=128

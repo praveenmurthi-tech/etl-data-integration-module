@@ -1,0 +1,2 @@
+sale_id,customer_id,product_id,sale_date,sale_amount,sale_currency,quantity_sold,salesperson_name,region,payment_mode,tax_amount,discount_amount,net_amount,created_at,updated_at,_error
+,,,,,,,,,,,,,,,Missing mandatory field: sale_date

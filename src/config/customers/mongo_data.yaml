@@ -1,0 +1,33 @@
+customer: "mongo_input"
+
+source:
+  type: mongodb
+  uri: "mongodb+srv://praveenmurthi82:Wq48FYuN16yxS0xl@praveen.ygyu8.mongodb.net/"
+  database: "etl"
+  collection: "etl"
+
+
+datasets:
+  services:
+    source_table: etl                # not really a "table" but Mongo collection
+    target_table: services           # Postgres target
+    key_columns: ["service_id"]
+    incremental:
+      column: last_updated
+      start_from: null
+    mapping:
+      service_id: activity_id
+      customer_id: client_code
+      service_date: service_week
+      service_type: service_cat
+      service_amount: bill_total
+      service_currency: currency_symbol
+      technician_name: tech_initials
+      service_status: status_code
+      service_duration: total_mins
+      parts_used: parts_list
+      warranty_applied: warranty_yn
+      follow_up_required: follow_up
+      remarks: remarks
+      created_at: service_week
+      updated_at: last_updated

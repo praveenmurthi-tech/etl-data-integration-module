@@ -1,0 +1,369 @@
+2025-09-03 07:22:29,739 | ERROR | src.cli | ETL failed for run_id=101
+Traceback (most recent call last):
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+pyodbc.ProgrammingError: ('42S02', "[42S02] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid object name 'sales'. (208) (SQLExecDirectW)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 116, in main
+    for file_path in files:
+                     ^^^^^
+  File "D:\etl_extractor\src\extract\extractor.py", line 78, in extract_chunks
+    for chunk in pd.read_sql_query(text(base_sql), conn, params=params, chunksize=chunksize):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1848, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1672, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (pyodbc.ProgrammingError) ('42S02', "[42S02] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid object name 'sales'. (208) (SQLExecDirectW)")
+[SQL: SELECT * FROM sales]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-09-03 07:25:37,084 | ERROR | src.cli | ETL failed for run_id=102
+Traceback (most recent call last):
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+pyodbc.ProgrammingError: ('42S02', "[42S02] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid object name 'sales'. (208) (SQLExecDirectW)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 116, in main
+    for file_path in files:
+                     ^^^^^
+  File "D:\etl_extractor\src\extract\extractor.py", line 78, in extract_chunks
+    for chunk in pd.read_sql_query(text(base_sql), conn, params=params, chunksize=chunksize):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1848, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1672, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (pyodbc.ProgrammingError) ('42S02', "[42S02] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid object name 'sales'. (208) (SQLExecDirectW)")
+[SQL: SELECT * FROM sales]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-09-03 07:35:25,758 | ERROR | src.cli | ETL failed for run_id=104
+Traceback (most recent call last):
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column "ingestion_status" of relation "file_extraction_log" does not exist
+LINE 1: ...n_id, dataset, file_path, chunk_no, rows, status, ingestion_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 115, in main
+    for file_path in files:
+                     ^^^^^
+  File "D:\etl_extractor\src\extract\extractor.py", line 95, in extract_chunks
+    yield write_chunk_to_file(
+          ^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\src\extract\extractor.py", line 43, in write_chunk_to_file
+    audit_core.log_extracted_file(
+  File "D:\etl_extractor\src\core\audit.py", line 61, in log_extracted_file
+    sess.commit()
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4345, in flush
+    self._flush(objects)
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4480, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4441, in _flush
+    flush_context.execute()
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "ingestion_status" of relation "file_extraction_log" does not exist
+LINE 1: ...n_id, dataset, file_path, chunk_no, rows, status, ingestion_...
+                                                             ^
+
+[SQL: INSERT INTO file_extraction_log (run_id, dataset, file_path, chunk_no, rows, status, ingestion_status, extracted_at) VALUES (%(run_id)s, %(dataset)s, %(file_path)s, %(chunk_no)s, %(rows)s, %(status)s, %(ingestion_status)s, %(extracted_at)s) RETURNING file_extraction_log.id]
+[parameters: {'run_id': 104, 'dataset': 'services', 'file_path': 'data_lake\\customer_b_services_104_chunk1.parquet', 'chunk_no': 1, 'rows': 500, 'status': 'success', 'ingestion_status': 'pending', 'extracted_at': datetime.datetime(2025, 9, 3, 2, 5, 25, 664503)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-09-04 07:55:39,978 | ERROR | src.cli | ETL failed for run_id=107
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 99, in main
+    files = extract_chunks(
+            ^^^^^^^^^^^^^^^
+TypeError: extract_chunks() got an unexpected keyword argument 'data_type'
+2025-09-06 11:06:19,903 | ERROR | src.cli | ETL failed for run_id=110
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 110, in main
+    chunksize=args.chunksize, data_type=args.dataset,config_name=args.config_name)
+                                                                 ^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_name'
+2025-09-06 11:07:21,742 | ERROR | src.cli | ETL failed for run_id=111
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 111, in main
+    chunksize=args.chunksize, data_type=args.dataset,config_name=args.config_name)
+                                                                 ^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_name'
+2025-09-06 11:09:08,885 | ERROR | src.cli | ETL failed for run_id=112
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 110, in main
+    chunksize=args.chunksize, data_type=args.dataset,config_name=args.config_name)
+                                                                 ^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_name'
+2025-09-06 11:10:23,024 | ERROR | src.cli | ETL failed for run_id=113
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 110, in main
+    chunksize=args.chunksize, data_type=args.dataset,config_name=args.config_name)
+                                                                 ^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_name'
+2025-09-06 11:11:03,053 | ERROR | src.cli | ETL failed for run_id=114
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 107, in main
+    files = extract_file_chunks(cfg.source.path, cfg.source.format,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: extract_file_chunks() got an unexpected keyword argument 'data_type'
+2025-09-06 11:16:33,563 | WARNING | src.core.db | Connection attempt 1 failed: No module named 'mysql'
+2025-09-06 11:16:35,570 | WARNING | src.core.db | Connection attempt 2 failed: No module named 'mysql'
+2025-09-06 11:16:37,574 | WARNING | src.core.db | Connection attempt 3 failed: No module named 'mysql'
+2025-09-06 11:16:37,575 | ERROR | src.core.db | Failed to create SQLAlchemy engine after 3 attempts
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\core\db.py", line 94, in make_engine
+    engine = create_engine(url, future=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in create_engine
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 281, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 617, in create_engine
+    dbapi = dbapi_meth(**dbapi_args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\dialects\mysql\mysqlconnector.py", line 165, in import_dbapi
+    return cast("DBAPIModule", __import__("mysql.connector").connector)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'mysql'
+2025-09-06 11:18:02,531 | ERROR | src.cli | ETL failed for run_id=116
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 112, in main
+    files = extract_mongo(cfg.source, customer_name, args.dataset,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: extract_mongo() got an unexpected keyword argument 'data_type'
+2025-09-06 11:21:24,613 | WARNING | src.core.db | Connection attempt 1 failed: No module named 'mysql'
+2025-09-06 11:21:26,626 | WARNING | src.core.db | Connection attempt 2 failed: No module named 'mysql'
+2025-09-06 11:21:28,628 | WARNING | src.core.db | Connection attempt 3 failed: No module named 'mysql'
+2025-09-06 11:21:28,628 | ERROR | src.core.db | Failed to create SQLAlchemy engine after 3 attempts
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\core\db.py", line 94, in make_engine
+    engine = create_engine(url, future=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in create_engine
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 281, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 617, in create_engine
+    dbapi = dbapi_meth(**dbapi_args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\dialects\mysql\mysqlconnector.py", line 165, in import_dbapi
+    return cast("DBAPIModule", __import__("mysql.connector").connector)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'mysql'
+2025-09-06 11:28:52,339 | WARNING | src.core.db | Connection attempt 1 failed: No module named 'mysql'
+2025-09-06 11:28:54,350 | WARNING | src.core.db | Connection attempt 2 failed: No module named 'mysql'
+2025-09-06 11:28:56,354 | WARNING | src.core.db | Connection attempt 3 failed: No module named 'mysql'
+2025-09-06 11:28:56,354 | ERROR | src.core.db | Failed to create SQLAlchemy engine after 3 attempts
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\core\db.py", line 95, in make_engine
+    engine = create_engine(url, future=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in create_engine
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 281, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 617, in create_engine
+    dbapi = dbapi_meth(**dbapi_args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\dialects\mysql\mysqlconnector.py", line 165, in import_dbapi
+    return cast("DBAPIModule", __import__("mysql.connector").connector)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'mysql'
+2025-09-06 11:33:13,468 | WARNING | src.core.db | Connection attempt 1 failed: No module named 'mysql'
+2025-09-06 11:33:15,509 | WARNING | src.core.db | Connection attempt 2 failed: No module named 'mysql'
+2025-09-06 11:33:17,626 | WARNING | src.core.db | Connection attempt 3 failed: No module named 'mysql'
+2025-09-06 11:33:17,626 | ERROR | src.core.db | Failed to create SQLAlchemy engine after 3 attempts
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\core\db.py", line 96, in make_engine
+    engine = create_engine(url, future=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in create_engine
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 281, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 617, in create_engine
+    dbapi = dbapi_meth(**dbapi_args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\dialects\mysql\mysqlconnector.py", line 165, in import_dbapi
+    return cast("DBAPIModule", __import__("mysql.connector").connector)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'mysql'
+2025-09-06 11:34:37,356 | ERROR | src.cli | ETL failed for run_id=118
+Traceback (most recent call last):
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\connection_cext.py", line 772, in cmd_query
+    self._cmysql.query(
+_mysql_connector.MySQLInterfaceError: Table 'customer_c.sales_summary' doesn't exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\cursor_cext.py", line 353, in execute
+    self._connection.cmd_query(
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py", line 97, in wrapper
+    return method(cnx, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\connection_cext.py", line 781, in cmd_query
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1146 (42S02): Table 'customer_c.sales_summary' doesn't exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\etl_extractor\src\cli.py", line 118, in main
+    for file_path in files:
+                     ^^^^^
+  File "D:\etl_extractor\src\extract\extractor.py", line 80, in extract_chunks
+    for chunk in pd.read_sql_query(text(base_sql), conn, params=params, chunksize=chunksize):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1848, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\pandas\io\sql.py", line 1672, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\etl_extractor\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\cursor_cext.py", line 353, in execute
+    self._connection.cmd_query(
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py", line 97, in wrapper
+    return method(cnx, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\etl_extractor\venv\Lib\site-packages\mysql\connector\connection_cext.py", line 781, in cmd_query
+    raise get_mysql_exception(
+sqlalchemy.exc.ProgrammingError: (mysql.connector.errors.ProgrammingError) 1146 (42S02): Table 'customer_c.sales_summary' doesn't exist
+[SQL: SELECT * FROM sales_summary]
+(Background on this error at: https://sqlalche.me/e/20/f405)

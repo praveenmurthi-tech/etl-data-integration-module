@@ -1,0 +1,55 @@
+customer: file_input
+
+source:
+  type: file
+  path: "D:/data_modeling/srv_activity_log.csv"   # use forward slashes or escape `\`
+  format: csv
+
+datasets:
+  sales:
+    source_table: sales_summary
+    target_table: sales
+    key_columns: ["sale_id"]
+    incremental:
+      column: last_modified
+      start_from: null
+    mapping:
+      sale_id: sale_no
+      customer_id: client_code
+      product_id: prod_code
+      sale_date: week_start
+      sale_amount: total_gross
+      sale_currency: curr_code
+      quantity_sold: qty_total
+      salesperson_name: rep_fullname
+      region: sales_zone
+      payment_mode: pay_channel
+      tax_amount: vat
+      discount_amount: disc_amt
+      net_amount: final_total
+      created_at: week_start
+      updated_at: last_modified
+
+  services:
+    source_table: srv_activity_log_1
+    target_table: services
+    key_columns: ["service_id"]
+    incremental:
+      column: last_updated
+      start_from: null
+    mapping:
+      service_id: activity_id
+      customer_id: client_code
+      service_date: service_week
+      service_type: service_cat
+      service_amount: bill_total
+      service_currency: currency_symbol
+      technician_name: tech_initials
+      service_status: status_code
+      service_duration: total_mins
+      parts_used: parts_list
+      warranty_applied: warranty_yn
+      follow_up_required: follow_up
+      remarks: remarks
+      created_at: service_week
+      updated_at: last_updated
