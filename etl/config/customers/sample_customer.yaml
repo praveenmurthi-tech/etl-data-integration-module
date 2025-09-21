@@ -20,7 +20,6 @@ datasets:
       customer_id: client_code
       product_id: prod_code
       sale_date: week_start
-      sale_amount: total_gross
       sale_currency: curr_code
       quantity_sold: qty_total
       salesperson_name: rep_fullname

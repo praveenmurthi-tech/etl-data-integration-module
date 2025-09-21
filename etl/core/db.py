@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from sqlalchemy import create_engine
 import urllib.parse
 import logging
-
+import time
 
 logger = logging.getLogger(__name__)  # module-level logger
 
@@ -85,10 +85,20 @@ def make_engine(url: str | None):
     if url is None:
         logger.info("Skipping engine creation since source is a file.")
         return None
-    try:
-        engine = create_engine(url, future=True)
-        logger.debug("SQLAlchemy engine created successfully")
-        return engine
-    except Exception:
-        logger.exception("Failed to create SQLAlchemy engine")
-        raise
+
+    retries = 3
+    delay = 2  # seconds between retries
+
+    for attempt in range(1, retries + 1):
+        try:
+            engine = create_engine(url, future=True)
+            logger.debug("SQLAlchemy engine created successfully on attempt %d", attempt)
+            return engine
+        except Exception as e:
+            logger.warning("Connection attempt %d failed: %s", attempt, e)
+            if attempt < retries:
+                logger.info("Retrying in %d seconds...", delay)
+                time.sleep(delay)
+            else:
+                logger.exception("Failed to create SQLAlchemy engine after %d attempts", retries)
+                raise

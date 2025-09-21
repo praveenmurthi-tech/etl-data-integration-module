@@ -9,7 +9,7 @@ source:
 
 datasets:
   sales:
-    source_table: srv_activity_log_1
+    source_table: sales
     target_table: sales
     key_columns: ["sale_id"]
     incremental:

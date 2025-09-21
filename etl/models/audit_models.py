@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional, Any
 
-from sqlalchemy import Column, Integer, String, DateTime, Text, Numeric
+from sqlalchemy import Column, Integer, String, DateTime, Text, Numeric, ForeignKey
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -30,3 +30,20 @@ class EtlRunStep(Base):
     input_rows = Column(Integer, nullable=True)
     output_rows = Column(Integer, nullable=True)
     notes = Column(Text, nullable=True)
+    
+class FileExtractionLog(Base):
+    __tablename__ = "file_extraction_log"
+
+    id = Column(Integer, primary_key=True)
+    run_id = Column(Integer, ForeignKey("etl_run.id"), nullable=False)
+    dataset = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
+    chunk_no = Column(Integer, nullable=False)
+    rows = Column(Integer, nullable=False)
+    data_type = Column(String, nullable=False)   # sales/services
+    config_name = Column(String, nullable=False) # e.g. "customer_a.yaml"
+    status = Column(String, default="success")   # extraction status (success/failed)
+    ingestion_status = Column(String, default="pending")  # ingestion status (pending/success/failed)
+    extracted_at = Column(DateTime, default=datetime.utcnow)
+    remark = Column(String, nullable=True)
+

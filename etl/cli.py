@@ -1,20 +1,24 @@
 from __future__ import annotations
 import argparse
 import logging
-from typing import Optional, List
 import os
+import polars as pl
+from pathlib import Path
+from sqlalchemy.orm import Session
 
-from sqlalchemy import create_engine
-
-from etl.core.config_loader import load_yaml_config, load_env_pg
-from etl.core.db import build_source_url, build_pg_url, make_engine
+from etl.core.db import build_pg_url, make_engine
 from etl.core.logging import setup_logging
-from etl.core import audit as audit_core
-from etl.extract.sql_extractor import extract_chunks, extract_file_chunks, extract_mongo
+from etl.models.audit_models import FileExtractionLog
+from etl.core.config_loader import load_yaml_config
 from etl.transform.mapper import map_columns
-from etl.load.pg_loader import upsert_df
 from etl.core.validation import DataValidator
-from etl.config import DEST_DB, DEST_HOST, DEST_PASS, DEST_PORT, DEST_USER
+from etl.load.pg_loader import upsert_df
+import sqlalchemy
+from sqlalchemy.exc import SQLAlchemyError
+
+
+sqlalchemy.exc._include_sql_text = False
+
 
 REQUIRED_SALES = [
     "sale_id", "customer_id", "product_id", "sale_date",
@@ -33,36 +37,24 @@ REQUIRED_SERVICES = [
 ]
 
 
-def required_columns_for(dataset: str) -> List[str]:
+def required_columns_for(dataset: str) -> list[str]:
     if dataset == "sales":
         return REQUIRED_SALES
     if dataset == "services":
         return REQUIRED_SERVICES
     raise ValueError(f"Unknown dataset: {dataset}")
 
-def main():
-    parser = argparse.ArgumentParser(description="Run ETL for a dataset and customer config.")
-    parser.add_argument("--customer-config", required=True, help="Path to YAML config file")
-    parser.add_argument("--dataset", required=True, choices=["sales", "services"], help="Dataset name")    
-    parser.add_argument("--log-level", default=os.getenv("LOG_LEVEL", "INFO"), help="Log level (INFO/DEBUG)")
-    parser.add_argument("--chunksize", type=int, default=50000, help="Rows per chunk for extraction")    
-    args = parser.parse_args()
-    
-    setup_logging(args.log_level)
-    logger = logging.getLogger("etl.cli")
-    cfg = load_yaml_config(args.customer_config)
-    
-    # Engines
-    src_url = build_source_url(
-        cfg.source.type,
-        cfg.source.host,
-        cfg.source.port,
-        cfg.source.database,
-        cfg.source.username,
-        cfg.source.password,
-        cfg.source.driver
-    )
 
+def main():
+    parser = argparse.ArgumentParser(description="Run ETL ingestion for pending files.")
+    parser.add_argument("--log-level", default=os.getenv("LOG_LEVEL", "INFO"),
+                        help="Log level (INFO/DEBUG)")
+    args = parser.parse_args()
+
+    setup_logging(args.log_level)
+    logger = logging.getLogger("etl.ingest")
+
+    # === Destination DB ===
     dest = {
         "host": os.getenv("DEST_HOST"),
         "port": os.getenv("DEST_PORT"),
@@ -70,81 +62,106 @@ def main():
         "username": os.getenv("DEST_USER"),
         "password": os.getenv("DEST_PASS"),
     }
-
     dst_url = build_pg_url(dest)
-    src_engine = make_engine(src_url)
     dst_engine = make_engine(dst_url)
-    
-    # Ensure audit tables exist
-    from etl.models.audit_models import Base
-    Base.metadata.create_all(dst_engine)
 
-    dataset_cfg = cfg.datasets[args.dataset]
-    req_cols = required_columns_for(args.dataset)
-    
-    logger.info("Starting ETL | customer=%s dataset=%s", cfg.customer, args.dataset)
-    run_id = audit_core.start_run(dst_engine, cfg.customer, args.dataset)
-    
-    try:
-        inc_col = dataset_cfg.incremental.column if dataset_cfg.incremental else None
-        last_value = None  # Could be read from previous run in etl_run (left simple for now)
-        
+    # === Pick pending files (any dataset/type) ===
+    with Session(dst_engine) as sess:
+        pending_files = (
+            sess.query(FileExtractionLog)
+            .filter(FileExtractionLog.ingestion_status == "pending")
+            .order_by(FileExtractionLog.id.asc())
+            .all()
+        )
 
-        # EXTRACT
-        step_id = audit_core.start_step(dst_engine, run_id, "extract")
-        total_in = 0
-        if cfg.source.type in ("mysql", "mssql", "postgresql"):
-            chunks = extract_chunks(src_engine, ...)
-        elif cfg.source.type == "file":
-            chunks = extract_file_chunks(cfg.source.path, cfg.source.format, chunksize=50000)
-        elif cfg.source.type == "mongodb":
-            chunks = extract_mongo(cfg.source)
+    if not pending_files:
+        logger.info("No pending files for ingestion.")
+        return
+
+    logger.info("Found %d pending files to process", len(pending_files))
+
+    for file_log in pending_files:
+        dataset = file_log.data_type       # sales / services
+        config_name = file_log.config_name # YAML file name
+
+        # === Load config ===
+        cfg = load_yaml_config(f"etl/config/customers/{config_name}")
+        dataset_cfg = cfg.datasets[dataset]
+        req_cols = required_columns_for(dataset)
+
+        file_path = Path(file_log.file_path)
+        if not file_path.is_absolute():
+            base_dir = Path("D:/etl_extractor")
+            final_path = base_dir / file_path
         else:
-            raise ValueError(f"Unsupported source type: {cfg.source.type}")
-        dfs = []
-        for chunk in chunks:
-            total_in += len(chunk)
-            dfs.append(chunk)
-        audit_core.end_step(dst_engine, step_id, "success", total_in, total_in, None)
+            final_path = file_path
 
-        # TRANSFORM
-        step_id = audit_core.start_step(dst_engine, run_id, "transform")
-        total_out = 0
-        mapped = []
-        for df in dfs:
-            out = map_columns(df, dataset_cfg.mapping, req_cols)
-            total_out += len(out)
-            mapped.append(out)
-        import pandas as pd
-        final_df = pd.concat(mapped, ignore_index=True) if mapped else pd.DataFrame(columns=req_cols)
-        audit_core.end_step(dst_engine, step_id, "success", total_in, total_out, None)
+        try:
+            logger.info("Processing file: %s (rows=%d)", final_path, file_log.rows)
 
-        #Validation
-        step_id = audit_core.start_step(dst_engine, run_id, "validate")
-        validator = DataValidator(args.dataset)  # "sales" or "services" (same as dataset name)
-        valid_df, invalid_df = validator.validate_and_fix(final_df)
+            # === EXTRACT FILE ===
+            df = pl.read_parquet(str(final_path))
 
-        if not invalid_df.empty:
-            logger.warning("Validation failed for %s rows", len(invalid_df))
-            # you can dump invalid_df to a CSV or an 'etl_invalid_data' table if needed
-            invalid_df.to_csv(f"invalid_{args.dataset}_{run_id}.csv", index=False)
+            # === TRANSFORM ===
+            mapped_df = map_columns(df, dataset_cfg.mapping, req_cols, cfg.customer)
 
-        audit_core.end_step(dst_engine, step_id, "success", len(final_df), len(valid_df), None)
+            # === VALIDATE ===
+            validator = DataValidator(dataset)
 
-        # LOAD
-        step_id = audit_core.start_step(dst_engine, run_id, "load")
-        rowcount = upsert_df(dst_engine, valid_df, dataset_cfg.target_table, dataset_cfg.key_columns)
-        audit_core.end_step(dst_engine, step_id, "success", len(valid_df), rowcount, None)
+            try:
+                valid_df, invalid_df = validator.validate_and_fix(mapped_df)
+            except ValueError as ve:
+                # file-level failure (e.g. missing mandatory columns)
+                logger.error("❌ Validation error for file %s: %s", final_path, ve)
+                with Session(dst_engine) as sess:
+                    db_file = sess.get(FileExtractionLog, file_log.id)
+                    db_file.ingestion_status = "failed"
+                    db_file.error_message = str(ve)
+                    sess.commit()
+                continue  # skip this file
 
-        # END RUN
-        audit_core.end_run(dst_engine, run_id, "success", rowcount, last_value, None)
-        logger.info("ETL completed successfully | rows_upserted=%s", rowcount)
+            # If invalid rows exist → stringify them before saving
+            if not invalid_df.is_empty():
+                bad_path = str(final_path).replace(".parquet", "_invalid.csv")
+                # force all invalid values to string (safe for CSV)
+                invalid_str_rows = [
+                    {k: ("" if v is None else str(v)) for k, v in row.items()}
+                    for row in invalid_df.to_dicts()
+                ]
+                invalid_df = pl.DataFrame(invalid_str_rows)
+                invalid_df.write_csv(bad_path)
 
-    except Exception as e:
-        logger.exception("ETL failed: %s", e)
-        audit_core.end_run(dst_engine, run_id, "failed", None, None, str(e))
-        audit_core.end_step(dst_engine, step_id, "failed", None, None, str(e))
-        raise
+                msg = f"Validation failed for {len(invalid_df)} rows in {final_path}. Written to {bad_path}"
+                logger.error("❌ %s", msg)
+                with Session(dst_engine) as sess:
+                    db_file = sess.get(FileExtractionLog, file_log.id)
+                    db_file.ingestion_status = "failed"
+                    db_file.error_message = msg
+                    sess.commit()
+                continue  # stop further processing of this file
+
+            # === LOAD ===
+            target_table = dataset_cfg.target_table
+            key_columns = dataset_cfg.key_columns
+
+            rowcount = upsert_df(dst_engine, valid_df, target_table, key_columns)
+            logger.info("✅ Upserted %d rows from file %s", rowcount, final_path)
+
+            # === Update status → success ===
+            with Session(dst_engine) as sess:
+                db_file = sess.get(FileExtractionLog, file_log.id)
+                db_file.ingestion_status = "success"
+                db_file.error_message = None
+                sess.commit()
+
+        except Exception as e:
+            logger.exception("Failed processing file %s: %s", final_path, e)
+            with Session(dst_engine) as sess:
+                db_file = sess.get(FileExtractionLog, file_log.id)
+                db_file.ingestion_status = "failed"
+                db_file.error_message = str(e)
+                sess.commit()
+
 
 if __name__ == "__main__":
     main()
